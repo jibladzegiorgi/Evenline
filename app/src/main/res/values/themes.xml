@@ -2,4 +2,12 @@
 <resources>
 
     <style name="Theme.Evenline" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.AppSplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FF8142</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo</item>
+        <item name="windowSplashScreenAnimationDuration">500</item>
+        <item name="postSplashScreenTheme">@style/Theme.Evenline</item>
+<!--        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_evenline</item>-->
+    </style>
 </resources>

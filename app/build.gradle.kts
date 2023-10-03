@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.hilt)
+    //TODO Move
+    kotlin("kapt")
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -46,6 +50,37 @@ android {
     }
 }
 
+// Setup protobuf configuration, generating lite Java and Kotlin classes
+//TODO MOVE
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                register("java") {
+                    option("lite")
+                }
+                register("kotlin") {
+                    option("lite")
+                }
+            }
+        }
+    }
+}
+
+
+//TODO MOVE
+//crash
+//androidComponents.beforeVariants {
+//    android.sourceSets.register(it.name) {
+//        java.srcDir(buildDir.resolve("generated/source/proto/${it.name}/java"))
+//        kotlin.srcDir(buildDir.resolve("generated/source/proto/${it.name}/kotlin"))
+//    }
+//}
+
+
 dependencies {
 
     implementation(libs.core.ktx)
@@ -63,4 +98,11 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
+    implementation(libs.androidx.core.splashscreen)
+    //TODO Move
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.androidx.dataStore.core)
+    implementation(libs.protobuf.kotlin.lite)
 }

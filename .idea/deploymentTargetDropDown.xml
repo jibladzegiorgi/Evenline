@@ -5,6 +5,15 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="feature">
+        <State />
+      </entry>
+      <entry key="feature.onBoarding">
+        <State />
+      </entry>
+      <entry key="feature.test">
+        <State />
+      </entry>
     </value>
   </component>
 </project>

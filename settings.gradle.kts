@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Evenline"
 include(":app")
- 
+include(":feature")
+include(":feature:onBoarding")
