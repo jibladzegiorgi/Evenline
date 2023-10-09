@@ -6,11 +6,13 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import com.google.protobuf.InvalidProtocolBufferException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
-object SettingsSerializer : Serializer<EvenlineSettings> {
+class SettingsSerializer @Inject constructor(): Serializer<EvenlineSettings> {
     override val defaultValue: EvenlineSettings = EvenlineSettings.getDefaultInstance()
 
     override suspend fun readFrom(input: InputStream): EvenlineSettings =
@@ -29,5 +31,19 @@ object SettingsSerializer : Serializer<EvenlineSettings> {
 
 val Context.settingsDataStore: DataStore<EvenlineSettings> by dataStore(
     fileName = "settings.pb",
-    serializer = SettingsSerializer
+    serializer = SettingsSerializer()
 )
+
+//Writing to a proto data store
+suspend fun Context.savAppSettings(hideSplash:Boolean) {
+    settingsDataStore.updateData { appSettings ->
+        appSettings.toBuilder()
+            .setEmpHideSplash(hideSplash)
+            .build()
+
+    }
+}
+
+//Reading
+suspend fun Context.getAppSettings() = settingsDataStore.data.map { it }
+
